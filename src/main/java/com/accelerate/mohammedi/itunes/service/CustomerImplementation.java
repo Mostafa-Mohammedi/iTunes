@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class CustomerImplementation extends Customer implements CustomerRepository {
 
     /**
+     * Task 1
      * method for reading all the customer from the database and saving it to an arraylist for reading
      * @return new arraylist containing all the customer by name, country postal code phone number and email
      */
@@ -42,6 +43,7 @@ public class CustomerImplementation extends Customer implements CustomerReposito
     }
 
     /**
+     * Task 2
      * Method for getting a customer by id and returning the customer object
      * @param id take the int parameter
      * @return customer object containing the id, name, country, postal code, phone and email
@@ -74,10 +76,49 @@ public class CustomerImplementation extends Customer implements CustomerReposito
         return customer;
     }
 
+    /**
+     * Task 3
+     * method for returning the customer by name searches for first and last name
+     * @param name take a string name parameter
+     * @return a customer object
+     */
+    @Override
+    public Customer getByName(String name) {
+        Customer customer = null;
+        try {
+            Connection conn = connection();
+            String sql = "select customer_id, first_name, last_name, country, postal_code, phone, email " +
+                    "from customer " +
+                    "where first_name like ? or last_name like ?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1,"%" + name.replace("'", "") + "%");
+            statement.setString(2,"%" + name.replace("'", "") + "%");
+
+            ResultSet get_value_from_row = statement.executeQuery();
+            while(get_value_from_row.next()){
+                customer_id = get_value_from_row.getInt("customer_id");
+                first_name = get_value_from_row.getString("first_name");
+                last_name = get_value_from_row.getString("last_name");
+                country = get_value_from_row.getString("country");
+                postal_code = get_value_from_row.getString("postal_code");
+                phone = get_value_from_row.getString("phone");
+                email = get_value_from_row.getString("email");
+                customer = new Customer(customer_id, first_name, last_name, country, postal_code, phone, email);
+                //System.out.println(customer.toString());
+            }
+            //System.out.println(customers);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        System.out.println(customer.toString());
+        return customer;
+    }
+
 
 
     @Override
     public void create(Customer object) {
+
 
     }
 
@@ -107,4 +148,5 @@ public class CustomerImplementation extends Customer implements CustomerReposito
                 " " +
                 email;
     }
+
 }
