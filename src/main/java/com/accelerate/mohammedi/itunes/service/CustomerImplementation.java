@@ -10,10 +10,6 @@ import java.util.ArrayList;
 @Repository
 public class CustomerImplementation extends Customer implements CustomerRepository {
 
-    @Override
-    public Customer getById(Integer integer) {
-        return null;
-    }
     /**
      * method for reading all the customer from the database and saving it to an arraylist for reading
      * @return new arraylist containing all the customer by name, country postal code phone number and email
@@ -36,7 +32,7 @@ public class CustomerImplementation extends Customer implements CustomerReposito
                 email = get_value_from_row.getString("email");
                 Customer customer = new Customer(customer_id, first_name, last_name, country, postal_code, phone, email);
                 arrayList.add(customer);
-                System.out.println(customer.toString());
+                //System.out.println(customer.toString());
             }
             //System.out.println(customers);
         } catch (SQLException e) {
@@ -44,6 +40,41 @@ public class CustomerImplementation extends Customer implements CustomerReposito
         }
         return arrayList;
     }
+
+    /**
+     * Method for getting a customer by id and returning the customer object
+     * @param id take the int parameter
+     * @return customer object containing the id, name, country, postal code, phone and email
+     */
+    @Override
+    public Customer getById(Integer id) {
+        Customer customer = null;
+        try {
+            Connection conn = connection();
+            String sql = "select customer_id, first_name, last_name, country, postal_code, phone, email from customer where customer_id = ?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, id);
+            ResultSet get_value_from_row = statement.executeQuery();
+            while(get_value_from_row.next()){
+                customer_id = get_value_from_row.getInt("customer_id");
+                first_name = get_value_from_row.getString("first_name");
+                last_name = get_value_from_row.getString("last_name");
+                country = get_value_from_row.getString("country");
+                postal_code = get_value_from_row.getString("postal_code");
+                phone = get_value_from_row.getString("phone");
+                email = get_value_from_row.getString("email");
+                customer = new Customer(customer_id, first_name, last_name, country, postal_code, phone, email);
+                //System.out.println(customer.toString());
+            }
+            //System.out.println(customers);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        System.out.println(customer.toString());
+        return customer;
+    }
+
+
 
     @Override
     public void create(Customer object) {

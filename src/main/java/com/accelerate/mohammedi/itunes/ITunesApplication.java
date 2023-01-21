@@ -21,5 +21,6 @@ public class ITunesApplication implements ApplicationRunner {
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		studentService.getAll();
+		studentService.getById(10);
 	}
 }
