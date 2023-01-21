@@ -1,7 +1,6 @@
-package com.accelerate.mohammedi.itunes.repositories;
+package com.accelerate.mohammedi.itunes.repository;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public interface CrudRepository <ID, T>{
     //Crud

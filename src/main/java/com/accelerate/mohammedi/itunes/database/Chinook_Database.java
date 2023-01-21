@@ -1,4 +1,4 @@
-package com.accelerate.mohammedi.itunes.chinookDAO;
+package com.accelerate.mohammedi.itunes.database;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -8,7 +8,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 @Component
-public class ChinoookDAO {
+public class Chinook_Database {
     @Value("${spring.datasource.url}")
     private String url;
     @Value("${spring.datasource.username}")
@@ -17,22 +17,19 @@ public class ChinoookDAO {
     private String password;
 
 
-    public ChinoookDAO() {
+    public Chinook_Database() {
+
     }
 
-    public ChinoookDAO(String url, String username, String password) {
-        this.url = url;
-        this.username = username;
-        this.password = password;
-    }
-
-    public void connection(){
+    public Connection connection(){
         try {
             Connection conn = DriverManager.getConnection(url, username,password);
-            System.out.println("Connected to Chinook database..." + conn);
+            System.out.println("Connected to Chinook database...");
+            return conn;
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        return null;
     }
 }

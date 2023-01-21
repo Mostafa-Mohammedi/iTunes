@@ -1,4 +1,4 @@
-package com.accelerate.mohammedi.itunes.repositories;
+package com.accelerate.mohammedi.itunes.repository;
 
 import com.accelerate.mohammedi.itunes.models.Customer;
 
