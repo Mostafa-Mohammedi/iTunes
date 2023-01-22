@@ -12,8 +12,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ITunesApplication implements ApplicationRunner {
 
 	@Autowired
-	Customer customer;
-	@Autowired
 	CustomerImplementation studentService;
 	public static void main(String[] args) {
 		SpringApplication.run(ITunesApplication.class, args);
@@ -22,6 +20,14 @@ public class ITunesApplication implements ApplicationRunner {
 	public void run(ApplicationArguments args) throws Exception {
 		//studentService.getAll();
 		//studentService.getById(10);
-		studentService.getByName("Daan");
+		//studentService.getByName("Daan");
+
+		studentService.create(new Customer(61,
+				"Mostafa",
+				"Mohammedi",
+				"Norway",
+				"1151",
+				"95242854",
+				"mosti94@hotmail.com"));
 	}
 }

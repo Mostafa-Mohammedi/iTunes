@@ -4,14 +4,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class Customer extends Chinook_Database {
-
     public int customer_id;
     public String first_name;
     public String last_name;
-    public String company;
-    public String address;
-    public String city;
-    public String state;
     public String country;
     public String postal_code;
     public String phone;
@@ -19,6 +14,7 @@ public class Customer extends Chinook_Database {
 
 
     public Customer() {
+
     }
 
     public Customer(int customer_id, String first_name, String last_name, String country, String postal_code, String phone, String email) {
