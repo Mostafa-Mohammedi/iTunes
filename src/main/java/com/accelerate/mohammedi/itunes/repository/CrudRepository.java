@@ -10,7 +10,6 @@ public interface CrudRepository <ID, T>{
     void create(T object);
 
     void update(T object);
-    void delete(ID id);
 
 
 }

@@ -180,15 +180,37 @@ public class CustomerImplementation extends Customer implements CustomerReposito
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        System.out.println(customer.toString());
+        System.out.println("database is updated");
 
 
     }
 
+    /**
+     * method for returning the country with most customer
+     */
     @Override
-    public void delete(Integer integer) {
+    public void countryMostCustomer() {
 
+        try {
+            Connection conn = connection();
+            String sql = "select country, count(country) from customer group by country order by count(country) desc limit 1";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            ResultSet get_value_from_row = statement.executeQuery();
+
+
+            while(get_value_from_row.next()){
+                country = get_value_from_row.getString("country");
+
+                System.out.println(country);
+                //System.out.println(customer.toString());
+            }
+            //System.out.println(customers);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        System.out.println("database is updated");
     }
+
 
     @Override
     public String toString() {

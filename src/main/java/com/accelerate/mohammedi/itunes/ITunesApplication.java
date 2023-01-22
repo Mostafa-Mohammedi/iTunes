@@ -31,6 +31,7 @@ public class ITunesApplication implements ApplicationRunner {
 				"95242854",
 				"mosti94@hotmail.com"));
 		 */
+		/*
 
 		studentService.update(new Customer(61,
 				"Smane",
@@ -39,6 +40,10 @@ public class ITunesApplication implements ApplicationRunner {
 				"1151",
 				"91847087",
 				"smane96@hotmail.com"));
+	}
+
+		 */
+		studentService.countryMostCustomer();
 
 	}
 }
