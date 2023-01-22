@@ -153,8 +153,35 @@ public class CustomerImplementation extends Customer implements CustomerReposito
         System.out.println(customer.toString());
     }
 
+    /**
+     * task 6
+     * updating an existing customer name, country, postal code, phone and email
+     * @param customer take a customer object as parameter
+     */
     @Override
-    public void update(Customer object) {
+    public void update(Customer customer) {
+
+        try {
+            Connection conn = connection();
+            String sql = "update customer set first_name = ?, last_name = ?, country = ?, postal_code = ?, phone = ?, email = ? where customer_id = ?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, customer.first_name);
+            statement.setString(2, customer.last_name);
+            statement.setString(3, customer.country);
+            statement.setString(4, customer.postal_code);
+            statement.setString(5, customer.phone);
+            statement.setString(6, customer.email);
+            statement.setInt(7,customer.customer_id);
+            statement.executeUpdate();
+            statement.close();
+            customer = new Customer(customer_id, first_name, last_name, country, postal_code, phone, email);
+            //System.out.println(customer.toString());
+            //System.out.println(customers);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        System.out.println(customer.toString());
+
 
     }
 

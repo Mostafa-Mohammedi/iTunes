@@ -22,6 +22,7 @@ public class ITunesApplication implements ApplicationRunner {
 		//studentService.getById(10);
 		//studentService.getByName("Daan");
 
+		/*
 		studentService.create(new Customer(61,
 				"Mostafa",
 				"Mohammedi",
@@ -29,5 +30,15 @@ public class ITunesApplication implements ApplicationRunner {
 				"1151",
 				"95242854",
 				"mosti94@hotmail.com"));
+		 */
+
+		studentService.update(new Customer(61,
+				"Smane",
+				"Mohammedi",
+				"Norway",
+				"1151",
+				"91847087",
+				"smane96@hotmail.com"));
+
 	}
 }
