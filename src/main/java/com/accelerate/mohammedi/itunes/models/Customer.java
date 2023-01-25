@@ -1,9 +1,8 @@
 package com.accelerate.mohammedi.itunes.models;
-import com.accelerate.mohammedi.itunes.database.Chinook_Database;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class Customer extends Chinook_Database {
+public class Customer extends Invoice {
     public int customer_id;
     public String first_name;
     public String last_name;
@@ -27,6 +26,11 @@ public class Customer extends Chinook_Database {
         this.email = email;
     }
 
+    public Customer(String first_name, String last_name, double total) {
+        super(total);
+        this.first_name = first_name;
+        this.last_name = last_name;
+    }
 
     @Override
     public String toString() {

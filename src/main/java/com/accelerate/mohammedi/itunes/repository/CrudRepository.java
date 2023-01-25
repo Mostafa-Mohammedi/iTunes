@@ -11,5 +11,4 @@ public interface CrudRepository <ID, T>{
 
     void update(T object);
 
-
 }
