@@ -1,48 +1,86 @@
 package com.accelerate.mohammedi.itunes.models;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public class Customer extends Invoice {
-    public int customer_id;
-    public String first_name;
-    public String last_name;
-    public String country;
-    public String postal_code;
-    public String phone;
-    public String email;
-
+/**
+ * Customer class is the entity class for containing  the data model for the customer class for querying the business logic
+ */
+public class Customer  {
+    private int customerId;
+    private String firstName;
+    private String lastName;
+    private String country;
+    private String postalCode;
+    private String phone;
+    private String email;
+    private Invoice totalInvoice;
 
     public Customer() {
 
     }
 
-    public Customer(int customer_id, String first_name, String last_name, String country, String postal_code, String phone, String email) {
-        this.customer_id = customer_id;
-        this.first_name = first_name;
-        this.last_name = last_name;
+    public Customer(int customerId, String firstName, String lastName, Invoice totalInvoice) {
+        this.customerId = customerId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.totalInvoice = totalInvoice;
+    }
+
+    public Customer(int customer_id, String firstName, String lastName, Genre genreName) {
+        this.customerId = customer_id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public Customer(int customer_id, String firstName, String lastName, String country, String postalCode, String phone, String email) {
+        this.customerId = customer_id;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.country = country;
-        this.postal_code = postal_code;
+        this.postalCode = postalCode;
         this.phone = phone;
         this.email = email;
     }
 
-    public Customer(String first_name, String last_name, double total) {
-        super(total);
-        this.first_name = first_name;
-        this.last_name = last_name;
+    // Getters and Setters
+    public int getCustomerId() {
+        return customerId;
     }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
 
     @Override
     public String toString() {
-        return  customer_id +
+        return  customerId +
                 " " +
-                first_name +
+                firstName +
                 " " +
-                last_name +
+                lastName +
                 " " +
                 country +
                 " " +
-                postal_code +
+                postalCode +
                 " " +
                 phone +
                 " " +

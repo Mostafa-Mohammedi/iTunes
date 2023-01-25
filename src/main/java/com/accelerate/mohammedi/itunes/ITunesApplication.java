@@ -11,8 +11,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ITunesApplication implements ApplicationRunner {
 
-	@Autowired
-	CustomerImplementation customerService;
+	final CustomerImplementation customerService;
+
+	public ITunesApplication(CustomerImplementation customerService) {
+		this.customerService = customerService;
+	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(ITunesApplication.class, args);
 	}
@@ -22,14 +26,19 @@ public class ITunesApplication implements ApplicationRunner {
 		//customerService.getById(10);
 		//customerService.getByName("Daan");
 
-		//customerService.create(new Customer(61,"Mostafa","Mohammedi","Norway","1151","95242854","mosti94@hotmail.com"));
-		//customerService.pageCustomer(new Customer(), 10,10);
+		//customerService.create(new Customer(62,"Mostafa","Mohammedi","Norway","1151","95242854","mosti94@hotmail.com"));
+		//customerService.pageCustomer(new Customer(), 10,20);
 
 
-
-		//customerService.update(new Customer(61, "Smane", "Mohammedi", "Norway", "1151", "91847087", "smane96@hotmail.com"));
+		//customerService.update(new Customer(62, "Smane", "Mohammedi", "Norway", "1151", "91847087", "smane96@hotmail.com"));
 		//customerService.countryMostCustomer();
 		//customerService.customer_most_total();
+
+		//Customer cs = customerService.most_popularGenre(12);
+		//System.out.println(cs);
+
+
+
 	}
 
 

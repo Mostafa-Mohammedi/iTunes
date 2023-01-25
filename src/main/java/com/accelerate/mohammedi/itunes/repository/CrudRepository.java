@@ -1,5 +1,7 @@
 package com.accelerate.mohammedi.itunes.repository;
 
+import com.accelerate.mohammedi.itunes.models.Customer;
+
 import java.util.ArrayList;
 
 public interface CrudRepository <ID, T>{
@@ -9,6 +11,6 @@ public interface CrudRepository <ID, T>{
 
     void create(T object);
 
-    void update(T object);
+    T update(T object);
 
 }

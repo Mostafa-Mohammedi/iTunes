@@ -1,14 +1,18 @@
 package com.accelerate.mohammedi.itunes.service;
 import com.accelerate.mohammedi.itunes.models.Customer;
+import com.accelerate.mohammedi.itunes.models.Genre;
 import com.accelerate.mohammedi.itunes.models.Invoice;
 import com.accelerate.mohammedi.itunes.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author  Mostafa Mohammedi
+ * CustomerImplementation class contains all the business logic of the Customer repository
+ */
 @Repository
 public class CustomerImplementation implements CustomerRepository {
 
@@ -32,6 +36,17 @@ public class CustomerImplementation implements CustomerRepository {
         return null;
     }
 
+    private Customer getCustomerData(ResultSet dbResult) throws SQLException {
+        int customer_id = dbResult.getInt("customer_id");
+        String firstName = dbResult.getString("first_name");
+        String lastName = dbResult.getString("last_name");
+        String country = dbResult.getString("country");
+        String postalCode = dbResult.getString("postal_code");
+        String phone = dbResult.getString("phone");
+        String email = dbResult.getString("email");
+        return new Customer(customer_id, firstName, lastName, country, postalCode, phone, email);
+    }
+
 
     /**
      * Task 1
@@ -40,24 +55,18 @@ public class CustomerImplementation implements CustomerRepository {
      */
     @Override
     public ArrayList<Customer> getAll() {
-        ArrayList<Customer> arrayList = new ArrayList<Customer>();
-        Customer customer = new Customer();
+        ArrayList<Customer> arrayList = new ArrayList<>();
+        Customer customer = null;
         try {
             Connection conn = connection();
             String sql = "select customer_id, first_name, last_name, country, postal_code, phone, email from customer";
             PreparedStatement statement = conn.prepareStatement(sql);
-            ResultSet get_value_from_row = statement.executeQuery();
-            while(get_value_from_row.next()){
-                customer.customer_id = get_value_from_row.getInt("customer_id");
-                customer.first_name = get_value_from_row.getString("first_name");
-                customer.last_name = get_value_from_row.getString("last_name");
-                customer.country = get_value_from_row.getString("country");
-                customer.postal_code = get_value_from_row.getString("postal_code");
-                customer.phone = get_value_from_row.getString("phone");
-                customer.email = get_value_from_row.getString("email");
-                customer = new Customer(customer.customer_id, customer.first_name, customer.last_name, customer.country, customer.postal_code, customer.phone, customer.email);
+
+            ResultSet dbResult = statement.executeQuery();
+            while(dbResult.next()){
+                customer = getCustomerData(dbResult);
                 arrayList.add(customer);
-                //System.out.println(customer.toString());
+                System.out.println(customer);
             }
             //System.out.println(customers);
         } catch (SQLException e) {
@@ -75,28 +84,22 @@ public class CustomerImplementation implements CustomerRepository {
     @Override
     public Customer getById(Integer id) {
         Customer customer = new Customer();
+
         try {
             Connection conn = connection();
             String sql = "select customer_id, first_name, last_name, country, postal_code, phone, email from customer where customer_id = ?";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, id);
-            ResultSet get_value_from_row = statement.executeQuery();
-            while(get_value_from_row.next()){
-                customer.customer_id = get_value_from_row.getInt("customer_id");
-                customer.first_name = get_value_from_row.getString("first_name");
-                customer.last_name = get_value_from_row.getString("last_name");
-                customer.country = get_value_from_row.getString("country");
-                customer.postal_code = get_value_from_row.getString("postal_code");
-                customer.phone = get_value_from_row.getString("phone");
-                customer.email = get_value_from_row.getString("email");
-                customer = new Customer(customer.customer_id, customer.first_name, customer.last_name, customer.country, customer.postal_code, customer.phone, customer.email);
+            ResultSet dbResult = statement.executeQuery();
+            while(dbResult.next()){
+                customer = getCustomerData(dbResult);
                 //System.out.println(customer.toString());
             }
             //System.out.println(customers);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        System.out.println(customer.toString());
+        System.out.println(customer);
         return customer;
     }
 
@@ -118,23 +121,16 @@ public class CustomerImplementation implements CustomerRepository {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1,"%" + name.replace("'", "") + "%");
             statement.setString(2,"%" + name.replace("'", "") + "%");
-            ResultSet get_value_from_row = statement.executeQuery();
-            while(get_value_from_row.next()){
-                customer.customer_id = get_value_from_row.getInt("customer_id");
-                customer.first_name = get_value_from_row.getString("first_name");
-                customer.last_name = get_value_from_row.getString("last_name");
-                customer.country = get_value_from_row.getString("country");
-                customer.postal_code = get_value_from_row.getString("postal_code");
-                customer.phone = get_value_from_row.getString("phone");
-                customer.email = get_value_from_row.getString("email");
-                customer = new Customer(customer.customer_id, customer.first_name, customer.last_name, customer.country, customer.postal_code, customer.phone, customer.email);
+            ResultSet dbResult = statement.executeQuery();
+            while(dbResult.next()){
+                customer = getCustomerData(dbResult);
                 //System.out.println(customer.toString());
             }
             //System.out.println(customers);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        System.out.println(customer.toString());
+        System.out.println(customer);
         return customer;
     }
 
@@ -159,16 +155,9 @@ public class CustomerImplementation implements CustomerRepository {
 
             ResultSet get_value_from_row = statement.executeQuery();
             while(get_value_from_row.next()){
-                customer.customer_id = get_value_from_row.getInt("customer_id");
-                customer.first_name = get_value_from_row.getString("first_name");
-                customer.last_name = get_value_from_row.getString("last_name");
-                customer.country = get_value_from_row.getString("country");
-                customer.postal_code = get_value_from_row.getString("postal_code");
-                customer.phone = get_value_from_row.getString("phone");
-                customer.email = get_value_from_row.getString("email");
-                customer = new Customer(customer.customer_id, customer.first_name, customer.last_name, customer.country, customer.postal_code, customer.phone, customer.email);
+                customer = getCustomerData(get_value_from_row);
                 customers.add(customer);
-                System.out.println(customer.toString());
+                System.out.println(customer);
             }
             //System.out.println(customers);
         } catch (SQLException e) {
@@ -190,25 +179,17 @@ public class CustomerImplementation implements CustomerRepository {
             String sql = "insert into customer(customer_id, first_name, last_name, country, postal_code, phone, email)" +
                     "values (?, ?, ?, ?, ?,?, ?)";
             PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setInt(1,customer.customer_id);
-            statement.setString(2, customer.first_name);
-            statement.setString(3, customer.last_name);
-            statement.setString(4, customer.country);
-            statement.setString(5, customer.postal_code);
-            statement.setString(6, customer.phone);
-            statement.setString(7, customer.email);
+            statement.setInt(1,customer.getCustomerId());
+            statement.setString(2,customer.getFirstName());
+            statement.setString(3, customer.getLastName());
+            statement.setString(4, customer.getCountry());
+            statement.setString(5, customer.getPostalCode());
+            statement.setString(6, customer.getPhone());
+            statement.setString(7, customer.getEmail());
 
-
-            ResultSet get_value_from_row = statement.executeQuery();
-            while(get_value_from_row.next()){
-                customer.customer_id = get_value_from_row.getInt("customer_id");
-                customer.first_name = get_value_from_row.getString("first_name");
-                customer.last_name = get_value_from_row.getString("last_name");
-                customer.country = get_value_from_row.getString("country");
-                customer.postal_code = get_value_from_row.getString("postal_code");
-                customer.phone = get_value_from_row.getString("phone");
-                customer.email = get_value_from_row.getString("email");
-                customer = new Customer(customer.customer_id, customer.first_name, customer.last_name, customer.country, customer.postal_code, customer.phone, customer.email);
+            ResultSet dbResult = statement.executeQuery();
+            while(dbResult.next()){
+                customer = getCustomerData(dbResult);
                 //System.out.println(customer.toString());
             }
             //System.out.println(customers);
@@ -224,30 +205,29 @@ public class CustomerImplementation implements CustomerRepository {
      * @param customer take a customer object as parameter
      */
     @Override
-    public void update(Customer customer) {
+    public Customer update(Customer customer) {
 
         try {
             Connection conn = connection();
             String sql = "update customer set first_name = ?, last_name = ?, country = ?, postal_code = ?, phone = ?, email = ? where customer_id = ?";
             PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setString(1, customer.first_name);
-            statement.setString(2, customer.last_name);
-            statement.setString(3, customer.country);
-            statement.setString(4, customer.postal_code);
-            statement.setString(5, customer.phone);
-            statement.setString(6, customer.email);
-            statement.setInt(7,customer.customer_id);
+            statement.setString(1,customer.getFirstName());
+            statement.setString(2, customer.getLastName());
+            statement.setString(3, customer.getCountry());
+            statement.setString(4, customer.getPostalCode());
+            statement.setString(5, customer.getPhone());
+            statement.setString(6, customer.getEmail());
+            statement.setInt(7,customer.getCustomerId());
             statement.executeUpdate();
             statement.close();
-            customer = new Customer(customer.customer_id, customer.first_name, customer.last_name, customer.country, customer.postal_code, customer.phone, customer.email);
+             customer = new Customer(customer.getCustomerId(),customer.getFirstName(), customer.getLastName(), customer.getCountry(), customer.getPostalCode(), customer.getPhone(), customer.getEmail());
             //System.out.println(customer.toString());
             //System.out.println(customers);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         System.out.println("database is updated");
-
-
+        return customer;
     }
 
     /**
@@ -256,19 +236,14 @@ public class CustomerImplementation implements CustomerRepository {
      */
     @Override
     public void countryMostCustomer() {
-        Customer customer = new Customer();
         try {
             Connection conn = connection();
             String sql = "select country, count(country) from customer group by country order by count(country) desc limit 1";
             PreparedStatement statement = conn.prepareStatement(sql);
-            ResultSet get_value_from_row = statement.executeQuery();
-
-
-            while(get_value_from_row.next()){
-                customer.country = get_value_from_row.getString("country");
-
-                System.out.println(customer.country);
-                //System.out.println(customer.toString());
+            ResultSet dbResult = statement.executeQuery();
+            while(dbResult.next()){
+                String country= dbResult.getString("country");
+                System.out.println(country);
             }
             //System.out.println(customers);
         } catch (SQLException e) {
@@ -285,26 +260,26 @@ public class CustomerImplementation implements CustomerRepository {
 
     public Customer customer_most_total() {
         Customer customer = new Customer();
-        Invoice invoice = new Invoice();
         try {
             Connection conn = connection();
             String sql = "select customer.customer_id, " +
                     "customer.first_name," +
-                    " customer.last_name,  " +
+                    " last_name,  " +
                     "sum (invoice.total) as total" +
                     " from customer" +
                     " join invoice " +
                     "on invoice.customer_id = customer.customer_id group by customer.customer_id order by sum(invoice.total) desc limit 1";
             PreparedStatement statement = conn.prepareStatement(sql);
-            ResultSet get_value_from_row = statement.executeQuery();
-            while(get_value_from_row.next()){
-                customer.first_name = get_value_from_row.getString("first_name");
-                customer.last_name = get_value_from_row.getString("last_name");
-                customer.total  = get_value_from_row.getDouble("total");
-                customer = new Customer(customer.first_name, customer.last_name, customer.total);
-                System.out.println(customer.first_name + " "+ customer.last_name + " " + customer.total);
-
+            ResultSet dbResult = statement.executeQuery();
+            while (dbResult.next()){
+                int customer_id = dbResult.getInt("customer_id");
+                String firstName = dbResult.getString("first_name");
+                String lastName = dbResult.getString("last_name");
+                int total  = dbResult.getInt("total");
+                customer = new Customer(customer_id,firstName, lastName, new Invoice(total));
+                System.out.println(firstName + " "+ lastName + " " + total);
             }
+
             //System.out.println(customers);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -314,5 +289,49 @@ public class CustomerImplementation implements CustomerRepository {
         return customer;
     }
 
+    /**
+     * Task 9
+     * For a given customer, their most popular genre (in the case of a tie, display both). Most popular in this context
+     * Means the genre that corresponds to the most tracks from invoices associated to that customer.
+     */
 
+    public Customer most_popularGenre(int id){
+        Customer customer = new Customer();
+        ArrayList<String> genreNameList = new ArrayList<>();
+        try {
+            Connection conn = connection();
+            String sql =
+                    "select customer_id, first_name,last_name,count as popular,genre from" +
+                    "(select c.customer_id, c.first_name, c.last_name, count(*),g.name  as genre,RANK () OVER ( " +
+                    "partition by c.customer_id " +
+                    "ORDER BY count(*) DESC) as rank" +
+                    " from customer as c" +
+                    " join invoice as i on c.customer_id=i.customer_id" +
+                    " join invoice_line il on il.invoice_id=i.invoice_id" +
+                    " join track as t on t.track_id=il.track_id" +
+                    " join genre as g on g.genre_id=t.genre_id where c.customer_id=?" +
+                    " group by c.customer_id,g.name) as a where rank=1";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, id);
+            ResultSet dbResult = statement.executeQuery();
+            while (dbResult.next()){
+                int customer_id = dbResult.getInt("customer_id");
+                String first_name= dbResult.getString("first_name");
+                String last_name = dbResult.getString("last_name");
+                int countPopularityGenre  = dbResult.getInt("popular");
+                String customerFavoriteGenre = dbResult.getString("genre");
+                genreNameList.add(customerFavoriteGenre);
+                customer = new Customer(customer_id, first_name, last_name,new Genre(countPopularityGenre, genreNameList));
+                System.out.println(customer_id + " " +first_name + " "+ last_name + " " + countPopularityGenre + " " + genreNameList);
+            }
+
+            //System.out.println(customers);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        System.out.println("database is updated");
+
+        return customer;
+    }
 }
+
