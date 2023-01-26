@@ -1,17 +1,18 @@
 package com.accelerate.mohammedi.itunes.models;
 
-/**
- * Invoice class for getting the total invoice
- */
 public class Invoice {
-    private final int total;
+    private int customer_Id;
+    private String firstName;
+    private String lastName;
 
-    public Invoice(int total) {
-        this.total = total;
+    public Invoice(int customer_Id, String firstName, String lastName) {
+        this.customer_Id = customer_Id;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     @Override
     public String toString() {
-        return " total " + total;
+        return "Invoice: " + "customer_Id: " + customer_Id + " firstName='" + firstName  + " lastName='" + lastName;
     }
 }

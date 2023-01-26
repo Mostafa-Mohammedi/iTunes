@@ -1,7 +1,5 @@
 package com.accelerate.mohammedi.itunes.service;
-import com.accelerate.mohammedi.itunes.models.Customer;
-import com.accelerate.mohammedi.itunes.models.Genre;
-import com.accelerate.mohammedi.itunes.models.Invoice;
+import com.accelerate.mohammedi.itunes.models.*;
 import com.accelerate.mohammedi.itunes.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
@@ -30,6 +28,7 @@ public class CustomerImplementation implements CustomerRepository {
             System.out.println("Connected to Chinook database...");
             return conn;
 
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -53,8 +52,9 @@ public class CustomerImplementation implements CustomerRepository {
      * method for reading all the customer from the database and saving it to an arraylist for reading
      * @return new arraylist containing all the customer by name, country postal code phone number and email
      */
+
     @Override
-    public ArrayList<Customer> getAll() {
+    public List<Customer> getAll() {
         ArrayList<Customer> arrayList = new ArrayList<>();
         Customer customer = null;
         try {
@@ -66,7 +66,7 @@ public class CustomerImplementation implements CustomerRepository {
             while(dbResult.next()){
                 customer = getCustomerData(dbResult);
                 arrayList.add(customer);
-                System.out.println(customer);
+               // System.out.println(customer);
             }
             //System.out.println(customers);
         } catch (SQLException e) {
@@ -99,7 +99,6 @@ public class CustomerImplementation implements CustomerRepository {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        System.out.println(customer);
         return customer;
     }
 
@@ -130,7 +129,6 @@ public class CustomerImplementation implements CustomerRepository {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        System.out.println(customer);
         return customer;
     }
 
@@ -170,10 +168,12 @@ public class CustomerImplementation implements CustomerRepository {
     /**
      * Task 5
      * method for creating a customer by adding a new customer object
+     *
      * @param customer takes a customer object
+     * @return
      */
     @Override
-    public void create(Customer customer) {
+    public Customer create(Customer customer) {
         try {
             Connection conn = connection();
             String sql = "insert into customer(customer_id, first_name, last_name, country, postal_code, phone, email)" +
@@ -196,7 +196,7 @@ public class CustomerImplementation implements CustomerRepository {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        System.out.println(customer.toString());
+        return customer;
     }
 
     /**
@@ -233,9 +233,12 @@ public class CustomerImplementation implements CustomerRepository {
     /**
      * Task 7
      * method for returning the country with most customer
+     *
+     * @return
      */
     @Override
-    public void countryMostCustomer() {
+    public CustomerCountry countryMostCustomer() {
+        CustomerCountry customerCountry = null;
         try {
             Connection conn = connection();
             String sql = "select country, count(country) from customer group by country order by count(country) desc limit 1";
@@ -243,13 +246,14 @@ public class CustomerImplementation implements CustomerRepository {
             ResultSet dbResult = statement.executeQuery();
             while(dbResult.next()){
                 String country= dbResult.getString("country");
-                System.out.println(country);
+                customerCountry = new CustomerCountry(new Country(country));
             }
             //System.out.println(customers);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         System.out.println("database is updated");
+        return customerCountry;
     }
 
     /**
@@ -257,9 +261,9 @@ public class CustomerImplementation implements CustomerRepository {
      * method for returning the customer object with higest spent amount
      * @return a customer object with the total amount as a parameter
      */
-
-    public Customer customer_most_total() {
-        Customer customer = new Customer();
+    @Override
+    public CustomerSpender customer_most_total() {
+        CustomerSpender customer = null;
         try {
             Connection conn = connection();
             String sql = "select customer.customer_id, " +
@@ -276,7 +280,7 @@ public class CustomerImplementation implements CustomerRepository {
                 String firstName = dbResult.getString("first_name");
                 String lastName = dbResult.getString("last_name");
                 int total  = dbResult.getInt("total");
-                customer = new Customer(customer_id,firstName, lastName, new Invoice(total));
+                customer = new CustomerSpender(new Invoice(customer_id, firstName, lastName), total);
                 System.out.println(firstName + " "+ lastName + " " + total);
             }
 
@@ -295,9 +299,10 @@ public class CustomerImplementation implements CustomerRepository {
      * Means the genre that corresponds to the most tracks from invoices associated to that customer.
      */
 
-    public Customer most_popularGenre(int id){
-        Customer customer = new Customer();
-        ArrayList<String> genreNameList = new ArrayList<>();
+    @Override
+    public CustomerGenre most_popularGenre(int id){
+        CustomerGenre customer = null;
+        List<String> genreName = new ArrayList<String>();
         try {
             Connection conn = connection();
             String sql =
@@ -320,9 +325,8 @@ public class CustomerImplementation implements CustomerRepository {
                 String last_name = dbResult.getString("last_name");
                 int countPopularityGenre  = dbResult.getInt("popular");
                 String customerFavoriteGenre = dbResult.getString("genre");
-                genreNameList.add(customerFavoriteGenre);
-                customer = new Customer(customer_id, first_name, last_name,new Genre(countPopularityGenre, genreNameList));
-                System.out.println(customer_id + " " +first_name + " "+ last_name + " " + countPopularityGenre + " " + genreNameList);
+                genreName.add(customerFavoriteGenre);
+                customer = new CustomerGenre(new Genre(customer_id,first_name, last_name), countPopularityGenre, genreName);
             }
 
             //System.out.println(customers);
