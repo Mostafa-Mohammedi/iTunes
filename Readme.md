@@ -34,5 +34,4 @@ In the first part of the assignment we had to do following script
 The second part of the assignment we ha to manipulate the SQL data with JDBC (PosgreSQL) driver
 
 ### class diagram for the setup
-
 ![img.png](img.png)
