@@ -11,20 +11,20 @@ public class Customer  {
     private String postalCode;
     private String phone;
     private String email;
-    private Invoice totalInvoice;
+    private CustomerSpender totalInvoice;
 
     public Customer() {
 
     }
 
-    public Customer(int customerId, String firstName, String lastName, Invoice totalInvoice) {
+    public Customer(int customerId, String firstName, String lastName, CustomerSpender totalInvoice) {
         this.customerId = customerId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.totalInvoice = totalInvoice;
     }
 
-    public Customer(int customer_id, String firstName, String lastName, Genre genreName) {
+    public Customer(int customer_id, String firstName, String lastName, CustomerGenre genreName) {
         this.customerId = customer_id;
         this.firstName = firstName;
         this.lastName = lastName;
