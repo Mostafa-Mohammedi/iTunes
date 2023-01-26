@@ -1,14 +1,19 @@
 package com.accelerate.mohammedi.itunes.models;
 
-import java.util.ArrayList;
-
 public class Genre {
+    private int customerId;
+    private String firstName;
+    private String lastName;
 
-    private int totalNumberPopularityGenre;
-    private ArrayList<String> name;
 
-    public Genre(int totalNumberPopularityGenre, ArrayList<String> name) {
-        this.totalNumberPopularityGenre = totalNumberPopularityGenre;
-        this.name = name;
+    public Genre(int customerId, String firstName, String lastName) {
+        this.customerId = customerId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    @Override
+    public String toString() {
+        return "Genre " + "customerId: " + customerId + " firstName: " + firstName + " lastName: " + lastName;
     }
 }

@@ -1,15 +1,14 @@
 package com.accelerate.mohammedi.itunes.repository;
-
 import com.accelerate.mohammedi.itunes.models.Customer;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface CrudRepository <ID, T>{
     //Crud
     T getById(ID id);
-    ArrayList<T> getAll();
+    List<T> getAll();
 
-    void create(T object);
+    Customer create(T object);
 
     T update(T object);
 
