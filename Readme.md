@@ -1,5 +1,9 @@
 ## Assignment Two where we created SQL script and a Spring boot assignment 
 
+### Author: Mebrahtu Gebremedhin
+### Author Mostafa Mohammedi 
+
+
 In the first part of the assignment we had to do following script
 
 *  Create a script called 01_tableCreate.sql that contains statements to create each of these tables and
